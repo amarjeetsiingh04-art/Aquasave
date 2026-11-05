@@ -1,0 +1,615 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#061426">
+  <title>AquaSave | Save Water, Save Life</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- CURSOR TRAIL -->
+<div class="cursor-trail"></div>
+<div class="cursor-line"></div>
+<div class="cursor-line"></div>
+<div class="cursor-line"></div>
+<div class="cursor-line"></div>
+<div class="cursor-line"></div>
+<div class="cursor-line"></div>
+<div class="cursor-line"></div>
+<div class="cursor-line"></div>
+<div class="cursor-line"></div>
+<div class="cursor-line"></div>
+<div class="cursor-line"></div>
+<div class="cursor-line"></div>
+
+<nav class="navbar">
+  <a class="logo" href="#" onclick="showPage('home');return false;">AquaSave<span>.</span></a>
+  <div class="nav-links">
+    <a data-page="home" class="active" href="#">Home</a>
+    <a data-page="about" href="#">About</a>
+    <a data-page="gallery" href="#">Gallery</a>
+    <a data-page="tips" href="#">Water Tips</a>
+    <a data-page="facts" href="#">Facts</a>
+    <a data-page="calculator" href="#">Calculator</a>
+    <a data-page="quiz" href="#">Quiz</a>
+    <a data-page="contact" href="#">Contact</a>
+  </div>
+</nav>
+
+<main>
+
+<!-- HOME -->
+<div id="home" class="page">
+  <section class="hero">
+    <div class="hero-content">
+      <span class="eyebrow">A BETTER FUTURE STARTS WITH US</span>
+      <h1>Every drop<br><span>has a purpose.</span></h1>
+      <p>Water is the foundation of life. Protect every drop today and help create a cleaner, greener and more sustainable tomorrow.</p>
+      <button class="primary-btn" onclick="showPage('tips')">Explore water tips <span>↗</span></button>
+    </div>
+
+    <div class="hero-visual" aria-label="Realistic rotating Earth globe">
+      <div class="earth-container">
+        <div class="earth-globe">
+          <div class="earth-clouds"></div>
+          <div class="earth-shine"></div>
+        </div>
+        <div class="earth-glow"></div>
+        <div class="earth-orbit"></div>
+      </div>
+      <div class="orbit-label label-top">PRECIOUS RESOURCE</div>
+      <div class="orbit-label label-bottom">PROTECT EVERY DROP</div>
+    </div>
+
+    <div class="hero-bottom">01 / 08 <span>WATER IS LIFE</span></div>
+  </section>
+
+  <section class="section">
+    <div class="section-heading">
+      <span class="eyebrow">WHY IT MATTERS</span>
+      <h2>A small change.<br><span>A lasting impact.</span></h2>
+      <p class="section-intro">Water conservation is not just a choice. It is our responsibility towards nature and future generations.</p>
+    </div>
+    <div class="cards">
+      <article class="info-card">
+        <span class="card-number">01</span>
+        <div class="card-symbol">◈</div>
+        <h3>Protect Nature</h3>
+        <p>Saving water protects rivers, lakes, wetlands, forests and the wildlife that depends on them.</p>
+      </article>
+      <article class="info-card">
+        <span class="card-number">02</span>
+        <div class="card-symbol">◎</div>
+        <h3>Secure Our Future</h3>
+        <p>Responsible water use helps communities prepare for droughts and water shortages.</p>
+      </article>
+      <article class="info-card">
+        <span class="card-number">03</span>
+        <div class="card-symbol">✳</div>
+        <h3>Healthy Communities</h3>
+        <p>Clean and accessible water supports health, hygiene, education and everyday life.</p>
+      </article>
+    </div><!-- TANK WATCH -->
+<div class="tank-watch-embed">
+  <div class="section-heading">
+    <span class="eyebrow">TRACK YOUR DAILY WATER USE</span>
+    <h2>Tank <span>Watch</span></h2>
+    <p class="section-intro">
+      Set your daily water budget, track your usage and save water.
+    </p>
+  </div>
+
+  <iframe
+    src="tank-watch.html"
+    title="Tank Watch Daily Water Budget"
+    loading="lazy">
+  </iframe>
+</div>
+  </section>
+<!-- WATER SAVING CHALLENGE -->
+<section class="challenge-section" id="water-challenge">
+  <div class="challenge-container">
+
+    <div class="challenge-heading">
+      <span class="eyebrow">AQUASAVE DAILY MISSION</span>
+      <h2>7 Days to <span>Save Water</span></h2>
+      <p>Complete daily missions, earn points and become a Water Hero!</p>
+    </div>
+
+    <div class="challenge-dashboard">
+      <div class="challenge-stat">
+        <h3 id="challengePoints">0</h3>
+        <p>⭐ Points</p>
+      </div>
+
+      <div class="challenge-stat">
+        <h3 id="challengeCount">0/7</h3>
+        <p>✅ Completed</p>
+      </div>
+
+      <div class="challenge-stat">
+        <h3 id="challengePercent">0%</h3>
+        <p>🌊 Progress</p>
+      </div>
+    </div>
+
+    <div class="challenge-progress">
+      <div class="progress-info">
+        <strong>Your Progress</strong>
+        <span id="challengeLevel">🌱 Beginner</span>
+      </div>
+
+      <div class="progress-track">
+        <div id="challengeBar"></div>
+      </div>
+
+      <p id="challengeMessage">💧 Start your water-saving journey!</p>
+    </div>
+
+    <div class="challenge-list">
+
+      <label class="challenge-item">
+        <input type="checkbox" class="challenge-check">
+        <div>
+          <h3>💧 Day 1 – Turn Off the Tap</h3>
+          <p>Turn off the tap while brushing.</p>
+        </div>
+        <span>+10 pts</span>
+      </label>
+
+      <label class="challenge-item">
+        <input type="checkbox" class="challenge-check">
+        <div>
+          <h3>🚿 Day 2 – Shorter Showers</h3>
+          <p>Try taking a shorter shower.</p>
+        </div>
+        <span>+10 pts</span>
+      </label>
+
+      <label class="challenge-item">
+        <input type="checkbox" class="challenge-check">
+        <div>
+          <h3>🔧 Day 3 – Check for Leaks</h3>
+          <p>Check taps and report leaking fixtures.</p>
+        </div>
+        <span>+10 pts</span>
+      </label>
+
+      <label class="challenge-item">
+        <input type="checkbox" class="challenge-check">
+        <div>
+          <h3>🌱 Day 4 – Reuse Water</h3>
+          <p>Reuse suitable leftover water for plants.</p>
+        </div>
+        <span>+10 pts</span>
+      </label>
+
+      <label class="challenge-item">
+        <input type="checkbox" class="challenge-check">
+        <div>
+          <h3>🪣 Day 5 – Use a Bucket</h3>
+          <p>Use a bucket instead of a running hose.</p>
+        </div>
+        <span>+10 pts</span>
+      </label>
+
+      <label class="challenge-item">
+        <input type="checkbox" class="challenge-check">
+        <div>
+          <h3>📢 Day 6 – Spread Awareness</h3>
+          <p>Share a water-saving tip with someone.</p>
+        </div>
+        <span>+10 pts</span>
+      </label>
+
+      <label class="challenge-item">
+        <input type="checkbox" class="challenge-check">
+        <div>
+          <h3>🏆 Day 7 – Water Pledge</h3>
+          <p>Promise to save water every day.</p>
+        </div>
+        <span>+10 pts</span>
+      </label>
+
+    </div>
+
+    <p id="challengeSuccess">🌍 Every drop counts!</p>
+
+    <button class="challenge-reset" type="button"
+      onclick="resetWaterChallenge()">
+      ↻ Reset Challenge
+    </button>
+
+  </div>
+</section>
+<!-- END WATER SAVING CHALLENGE -->
+  <!-- HOME PAGE CENTER CALCULATOR -->
+  <section class="home-calculator-section">
+    <span class="eyebrow">CHECK YOUR WATER USAGE</span>
+    <h2>Water Usage <span>Calculator</span></h2>
+    <p>Calculate your daily shower water consumption.</p>
+
+    <div class="home-calculator-box">
+      <label for="homePeople">Number of people</label>
+      <input type="number" id="homePeople" min="1" value="1">
+
+      <label for="homeMinutes">Shower time per person (minutes)</label>
+      <input type="number" id="homeMinutes" min="1" value="5">
+
+      <label for="homeFlow">Water flow (litres per minute)</label>
+      <input type="number" id="homeFlow" min="1" value="9">
+
+      <button class="primary-btn" onclick="calculateHomeWater()">
+        Calculate Now →
+      </button>
+
+      <div id="homeResult" aria-live="polite">
+        Your water usage result will appear here.
+      </div>
+    </div>
+
+    <button class="home-calculator-link" onclick="showPage('calculator')">
+      Open Full Calculator ↗
+    </button>
+  </section>
+
+  <section class="quote-section">
+    <span class="eyebrow">OUR SHARED RESPONSIBILITY</span>
+    <h2>Respect water.<br>Respect life.</h2>
+    <p>The future depends on what we do with every drop today.</p>
+  </section>
+
+  <div class="page-navigation">
+    <span class="page-count">01 / 08</span>
+    <button class="next-btn" onclick="nextPage()">Explore About <span>→</span></button>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<div id="about" class="page hidden">
+  <section class="page-banner about-banner">
+    <span class="eyebrow">UNDERSTAND THE RESOURCE</span>
+    <h1>About Water<br>Conservation</h1>
+    <p>Every drop has value. Every action makes a difference.</p>
+  </section>
+
+  <section class="section">
+    <div class="about-layout">
+      <div class="image-frame">
+        <img src="https://images.unsplash.com/photo-1437482078695-73f5ca6c96e2?auto=format&fit=crop&w=1000&q=85" alt="Beautiful flowing waterfall">
+        <span class="image-caption">NATURE • FRESHWATER</span>
+      </div>
+      <div class="about-copy">
+        <span class="eyebrow">THE BASICS</span>
+        <h2>What is water conservation?</h2>
+        <p>Water conservation means using water carefully, avoiding unnecessary wastage and protecting natural water resources. It includes small everyday habits as well as larger community efforts.</p>
+        <p>Freshwater is essential for drinking, farming, sanitation, industries and healthy ecosystems. Although Earth has plenty of water, only a small proportion is readily available freshwater.</p>
+        <h3>Why is it important?</h3>
+        <ul class="detail-list">
+          <li>Helps reduce water shortages.</li>
+          <li>Protects rivers, lakes and groundwater.</li>
+          <li>Supports agriculture and food production.</li>
+          <li>Protects aquatic plants and animals.</li>
+          <li>Helps communities become more sustainable.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="section-heading">
+      <span class="eyebrow">UNDERSTANDING THE PROBLEM</span>
+      <h2>Common causes of<br><span>water wastage.</span></h2>
+    </div>
+    <div class="cards">
+      <article class="info-card"><span class="card-number">01</span><h3>Leaking Taps</h3><p>Small leaks can waste water continuously. Repair dripping taps and damaged pipes.</p></article>
+      <article class="info-card"><span class="card-number">02</span><h3>Long Showers</h3><p>Using more water than necessary during bathing increases household consumption.</p></article>
+      <article class="info-card"><span class="card-number">03</span><h3>Inefficient Irrigation</h3><p>Unplanned irrigation and watering during hot hours can lead to unnecessary water loss.</p></article>
+      <article class="info-card"><span class="card-number">04</span><h3>Industrial Waste</h3><p>Poor water management and untreated wastewater can damage freshwater resources.</p></article>
+    </div>
+  </section>
+
+  <div class="page-navigation">
+    <button class="prev-btn" onclick="previousPage()">← Previous</button>
+    <span class="page-count">02 / 08</span>
+    <button class="next-btn" onclick="nextPage()">Gallery →</button>
+  </div>
+</div>
+
+<!-- GALLERY -->
+<div id="gallery" class="page hidden">
+  <section class="page-banner gallery-banner">
+    <span class="eyebrow">THE BEAUTY OF OUR PLANET</span>
+    <h1>Nature & Water<br>Gallery</h1>
+    <p>Explore the beauty we all have a responsibility to protect.</p>
+  </section>
+
+  <section class="section">
+    <div class="section-heading">
+      <span class="eyebrow">VISUAL COLLECTION</span>
+      <h2>Nature is worth<br><span>protecting.</span></h2>
+    </div>
+    <div class="gallery-grid">
+      <article class="gallery-card">
+        <img src="https://images.unsplash.com/photo-1437482078695-73f5ca6c96e2?auto=format&fit=crop&w=900&q=85" alt="Waterfall">
+        <div class="gallery-caption"><span>01 / FRESHWATER</span><h3>Waterfalls</h3><p>Protect natural freshwater sources.</p></div>
+      </article>
+      <article class="gallery-card">
+        <img src="https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=900&q=85" alt="Ocean waves">
+        <div class="gallery-caption"><span>02 / OCEANS</span><h3>Oceans</h3><p>Healthy oceans are essential for our planet.</p></div>
+      </article>
+      <article class="gallery-card">
+        <img src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=900&q=85" alt="Mountain lake">
+        <div class="gallery-caption"><span>03 / LAKES</span><h3>Freshwater Lakes</h3><p>Keep lakes clean and free from pollution.</p></div>
+      </article>
+      <article class="gallery-card">
+        <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=900&q=85" alt="Green forest">
+        <div class="gallery-caption"><span>04 / FORESTS</span><h3>Green Forests</h3><p>Forests help maintain the water cycle.</p></div>
+      </article>
+      <article class="gallery-card">
+        <img src="https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?auto=format&fit=crop&w=900&q=85" alt="River">
+        <div class="gallery-caption"><span>05 / RIVERS</span><h3>Rivers</h3><p>Rivers provide water to people and wildlife.</p></div>
+      </article>
+      <article class="gallery-card">
+        <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=900&q=85" alt="Mountain peaks">
+        <div class="gallery-caption"><span>06 / MOUNTAINS</span><h3>Mountains</h3><p>Mountain snow and glaciers feed many rivers.</p></div>
+      </article>
+    </div>
+  </section>
+
+  <div class="page-navigation">
+    <button class="prev-btn" onclick="previousPage()">← Previous</button>
+    <span class="page-count">03 / 08</span>
+    <button class="next-btn" onclick="nextPage()">Water Tips →</button>
+  </div>
+</div>
+
+<!-- TIPS -->
+<div id="tips" class="page hidden">
+  <section class="page-banner tips-banner">
+    <span class="eyebrow">EVERYDAY ACTIONS</span>
+    <h1>Smart Water-<br>Saving Tips</h1>
+    <p>Simple habits. Meaningful results.</p>
+  </section>
+
+  <section class="section">
+    <div class="section-heading">
+      <span class="eyebrow">01 / AT HOME</span>
+      <h2>Save water<br><span>where you live.</span></h2>
+    </div>
+    <div class="tips-grid">
+      <div class="tip">Turn off taps while brushing your teeth.</div>
+      <div class="tip">Repair leaking taps and pipes.</div>
+      <div class="tip">Take shorter showers.</div>
+      <div class="tip">Use a bucket instead of a running hose when practical.</div>
+      <div class="tip">Run dishwashers only with full loads.</div>
+      <div class="tip">Wash clothes with full laundry loads.</div>
+      <div class="tip">Keep drinking water in the refrigerator.</div>
+      <div class="tip">Avoid leaving water running while washing dishes.</div>
+      <div class="tip">Reuse suitable leftover water for plants.</div>
+      <div class="tip">Check your home regularly for hidden leaks.</div>
+    </div>
+
+    <div class="section-heading">
+      <span class="eyebrow">02 / IN THE GARDEN</span>
+      <h2>Grow green.<br><span>Use less water.</span></h2>
+    </div>
+    <div class="tips-grid">
+      <div class="tip">Water plants early in the morning.</div>
+      <div class="tip">Choose plants suited to your local climate.</div>
+      <div class="tip">Add mulch to help soil retain moisture.</div>
+      <div class="tip">Collect rainwater where permitted and safe.</div>
+      <div class="tip">Use drip irrigation where suitable.</div>
+      <div class="tip">Avoid watering during windy weather.</div>
+      <div class="tip">Group plants with similar watering needs.</div>
+      <div class="tip">Sweep outdoor areas instead of hosing them down.</div>
+    </div>
+
+    <div class="section-heading">
+      <span class="eyebrow">03 / COMMUNITY</span>
+      <h2>Make conservation<br><span>a shared effort.</span></h2>
+    </div>
+    <div class="tips-grid">
+      <div class="tip">Spread awareness about water conservation.</div>
+      <div class="tip">Report leaking school taps.</div>
+      <div class="tip">Keep nearby ponds and water bodies clean.</div>
+      <div class="tip">Participate in local tree-planting activities.</div>
+      <div class="tip">Organize water-awareness campaigns.</div>
+      <div class="tip">Encourage responsible water use in your community.</div>
+    </div>
+  </section>
+
+  <div class="page-navigation">
+    <button class="prev-btn" onclick="previousPage()">← Previous</button>
+    <span class="page-count">04 / 08</span>
+    <button class="next-btn" onclick="nextPage()">Water Facts →</button>
+  </div>
+</div>
+
+<!-- FACTS -->
+<div id="facts" class="page hidden">
+  <section class="page-banner facts-banner">
+    <span class="eyebrow">DID YOU KNOW?</span>
+    <h1>Amazing Water<br>Facts</h1>
+    <p>Discover why water is one of Earth's most precious resources.</p>
+  </section>
+
+  <section class="section">
+    <div class="facts-grid">
+      <article class="fact-card"><span>71%</span><h3>Earth's Surface</h3><p>Approximately 71% of Earth's surface is covered by water.</p></article>
+      <article class="fact-card"><span>~3%</span><h3>Freshwater</h3><p>Only around 3% of Earth's water is freshwater, and much of it is frozen or difficult to access.</p></article>
+      <article class="fact-card"><span>01</span><h3>Essential Resource</h3><p>Water is necessary for human health, food production and sanitation.</p></article>
+      <article class="fact-card"><span>∞</span><h3>Water Cycle</h3><p>Water continuously moves through evaporation, condensation and precipitation.</p></article>
+      <article class="fact-card"><span>70%</span><h3>Agriculture</h3><p>Agriculture accounts for roughly 70% of global freshwater withdrawals.</p></article>
+      <article class="fact-card"><span>Life</span><h3>Life Below Water</h3><p>Freshwater ecosystems provide habitats for many plants and animals.</p></article>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="about-layout">
+      <div class="image-frame">
+        <img src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=1000&q=85" alt="Lake surrounded by mountains">
+        <span class="image-caption">PROTECT OUR NATURAL RESOURCES</span>
+      </div>
+      <div class="about-copy">
+        <span class="eyebrow">TAKE ACTION</span>
+        <h2>How can we protect water?</h2>
+        <p>Protecting water requires action at every level. Individuals can reduce wastage, communities can protect local water bodies, farmers can adopt efficient irrigation and industries can treat and reuse wastewater.</p>
+        <p>Governments and organizations also play an important role in protecting water resources for future generations.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="page-navigation">
+    <button class="prev-btn" onclick="previousPage()">← Previous</button>
+    <span class="page-count">05 / 08</span>
+    <button class="next-btn" onclick="nextPage()">Calculator →</button>
+  </div>
+</div>
+
+<!-- CALCULATOR -->
+<div id="calculator" class="page hidden">
+  <section class="page-banner calculator-banner">
+    <span class="eyebrow">MEASURE YOUR IMPACT</span>
+    <h1>Water Usage<br>Calculator</h1>
+    <p>Understand your shower water use and build better habits.</p>
+  </section>
+
+  <section class="section">
+    <div class="calculator-layout">
+      <div class="calculator-intro">
+        <span class="eyebrow">YOUR DAILY HABITS</span>
+        <h2>Small changes<br>can save more.</h2>
+        <p>Estimate your household's shower water use. Adjust the values to see how daily habits affect your estimated consumption.</p>
+        <div class="calculator-stat"><strong>01</strong><span>Enter your household details</span></div>
+        <div class="calculator-stat"><strong>02</strong><span>Calculate estimated usage</span></div>
+        <div class="calculator-stat"><strong>03</strong><span>Explore ways to save</span></div>
+      </div>
+
+      <div class="calculator-box">
+        <h2>Shower Water Estimator</h2>
+        <label for="people">Number of people</label>
+        <input type="number" id="people" min="1" value="1">
+        <label for="minutes">Shower time per person (minutes)</label>
+        <input type="number" id="minutes" min="1" value="5">
+        <label for="flow">Shower flow (litres per minute)</label>
+        <input type="number" id="flow" min="1" value="9">
+        <button class="primary-btn" onclick="calculateWater()">Calculate water use →</button>
+        <div id="result" aria-live="polite">Your estimated result will appear here.</div>
+        <p class="small-note">This is an estimate. Actual use depends on shower flow and habits.</p>
+      </div>
+    
+  
+</div><!-- TANK WATCH -->
+<div class="tank-watch-embed">
+  <div class="section-heading">
+    <span class="eyebrow">TRACK YOUR DAILY WATER USE</span>
+    <h2>Tank <span>Watch</span></h2>
+    <p class="section-intro">
+      Set your daily water budget, track your usage and save water.
+    </p>
+  </div>
+
+  <!-- <iframe
+    src="tank-watch.html"
+    title="Tank Watch Daily Water Budget"
+    loading="lazy">
+  </iframe> -->
+</div>
+  </section>
+
+  <div class="page-navigation">
+    <button class="prev-btn" onclick="previousPage()">← Previous</button>
+    <span class="page-count">06 / 08</span>
+    <button class="next-btn" onclick="nextPage()">Take the Quiz →</button>
+  </div>
+</div>
+
+<!-- QUIZ -->
+<div id="quiz" class="page hidden">
+  <section class="page-banner quiz-banner">
+    <span class="eyebrow">TEST YOUR KNOWLEDGE</span>
+    <h1>Water Conservation<br>Quiz</h1>
+    <p>How much do you know about protecting water?</p>
+  </section>
+
+  <section class="section">
+    <div class="quiz-box">
+      <div class="quiz-topline">
+        <span>KNOWLEDGE CHECK</span>
+        <span id="quiz-progress">Question 1 of 10</span>
+      </div>
+      <div class="quiz-progress-track">
+        <div id="quiz-progress-bar"></div>
+      </div>
+      <h2 id="question">Question will appear here</h2>
+      <div id="options"></div>
+      <p id="quiz-result" aria-live="polite"></p>
+      <button class="primary-btn" id="next-btn" onclick="nextQuestion()">Next Question →</button>
+    </div>
+  </section>
+
+  <div class="page-navigation">
+    <button class="prev-btn" onclick="previousPage()">← Previous</button>
+    <span class="page-count">07 / 08</span>
+    <button class="next-btn" onclick="nextPage()">Contact →</button>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<div id="contact" class="page hidden">
+  <section class="page-banner contact-banner">
+    <span class="eyebrow">BE PART OF THE CHANGE</span>
+    <h1>Join the AquaSave<br>Mission</h1>
+    <p>Share your ideas and help spread awareness.</p>
+  </section>
+
+  <section class="section">
+    <div class="contact-layout">
+      <div class="contact-info">
+        <span class="eyebrow">MAKE A DIFFERENCE</span>
+        <h2>Every action<br>starts somewhere.</h2>
+        <p>Every person can make a difference. Start with one small habit and encourage others to do the same.</p>
+        <div class="contact-point"><span>01</span> Save water every day.</div>
+        <div class="contact-point"><span>02</span> Protect nature and freshwater.</div>
+        <div class="contact-point"><span>03</span> Share conservation tips.</div>
+        <img src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=900&q=85" alt="Peaceful lake landscape">
+      </div>
+
+      <form class="contact-form" onsubmit="submitContact(event)">
+        <span class="eyebrow">GET IN TOUCH</span>
+        <h2>Send a message</h2>
+        <label for="name">Your name</label>
+        <input type="text" id="name" placeholder="Enter your name" required>
+        <label for="email">Your email</label>
+        <input type="email" id="email" placeholder="Enter your email" required>
+        <label for="message">Your message</label>
+        <textarea id="message" placeholder="Share your message or water-saving idea..." required></textarea>
+        <button class="primary-btn" type="submit">Send message →</button>
+        <p id="contact-result" aria-live="polite"></p>
+        <p class="small-note">Demo form: your message is displayed here and is not sent to a server.</p>
+      </form>
+    </div>
+  </section>
+
+  <div class="page-navigation">
+    <button class="prev-btn" onclick="previousPage()">← Previous</button>
+    <span class="page-count">08 / 08</span>
+    <button class="next-btn" onclick="showPage('home')">Back to Home ↗</button>
+  </div>
+</div>
+
+</main>
+
+<footer>
+  <a class="footer-logo" href="#" onclick="showPage('home');return false;">AquaSave<span>.</span></a>
+  <p>Save Water. Save Life. Save the Future.</p>
+  <p class="footer-small">A project dedicated to a more sustainable planet.</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

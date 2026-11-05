@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tank Watch: daily water budget</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#EDF4F2;--surface:#FFFFFF;--ink:#0D2B33;--muted:#48666E;--line:#C7D9D6;--water:#2A9DB0;--deep:#17697C;--good:#2B8556;--over:#B4432F;--brass:#B9852F;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0A1A1F;--surface:#112830;--ink:#E4F0EE;--muted:#93B0B3;--line:#25414A;--water:#46BCCF;--deep:#2A8FA3;--good:#5CC58C;--over:#E5806B;--brass:#D9A74F}}
+:root[data-theme="dark"]{--bg:#0A1A1F;--surface:#112830;--ink:#E4F0EE;--muted:#93B0B3;--line:#25414A;--water:#46BCCF;--deep:#2A8FA3;--good:#5CC58C;--over:#E5806B;--brass:#D9A74F}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 1rem/1.5 "Source Sans 3",system-ui,-apple-system,"Segoe UI",sans-serif}
+h1,h2,.big{font-family:"Bricolage Grotesque","Trebuchet MS",system-ui,sans-serif;letter-spacing:-.01em;margin:0}
+.wrap{max-width:1040px;margin:0 auto;padding:20px 16px 48px}
+header{margin-bottom:20px}
+h1{font-size:clamp(1.8rem,5vw,2.6rem);line-height:1.1;font-weight:700}
+header p{margin:6px 0 0;color:var(--muted);max-width:56ch}
+.grid{display:grid;gap:16px;grid-template-columns:1fr}
+@media(min-width:820px){.grid{grid-template-columns:320px 1fr;align-items:start}.tankcard{position:sticky;top:16px}}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px}
+.card+.card{margin-top:16px}
+h2{font-size:1.25rem;font-weight:700;margin-bottom:10px}
+.tankcard{text-align:center}
+.tank{width:min(210px,60%);height:auto;display:block;margin:0 auto}
+.tank .shell{fill:none;stroke:var(--ink);stroke-width:4}
+.tank .ticks line{stroke:var(--muted);stroke-width:2}
+.tank .water{--wc:var(--water);transition:transform 1.6s cubic-bezier(.3,.7,.2,1)}
+.wv1,.wb{fill:var(--wc);transition:fill .6s}.wv2{fill:var(--deep);opacity:.55}
+.wv1{animation:drift2 4s linear infinite}.wv2{animation:drift2r 6s linear infinite}
+@keyframes drift2{to{transform:translateX(116px)}}@keyframes drift2r{from{transform:translateX(-116px)}}
+.bb{fill:#fff;opacity:0;animation:rise var(--d) ease-in infinite;animation-delay:var(--t)}
+@keyframes rise{0%{transform:translateY(0);opacity:0}15%{opacity:.6}100%{transform:translateY(-170px);opacity:0}}
+.drop{fill:var(--water);opacity:0}.drop.go{animation:fall .7s ease-in}
+@keyframes fall{0%{opacity:1;transform:translateY(0)}80%{opacity:1}100%{opacity:0;transform:translateY(62px)}}
+.tank.bump{animation:bump .5s ease-out}@keyframes bump{40%{transform:scale(1.06)}}
+.tank .surf{fill:var(--deep);opacity:.55}
+.tank .pipe{fill:var(--brass)}
+.big{font-size:2.8rem;font-weight:700;line-height:1;margin-top:10px}
+.big small{font-size:1.1rem;font-weight:500;color:var(--muted)}
+.state{margin:4px 0 0;color:var(--muted)}
+.state.over{color:var(--over);font-weight:600}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px;text-align:left}
+.stat{border-top:3px solid var(--water);padding-top:6px}
+.stat.s{border-color:var(--good)}
+.stat b{display:block;font:700 1.4rem "Bricolage Grotesque",sans-serif}
+.stat span{color:var(--muted);font-size:.9rem}
+.goal{display:flex;align-items:center;gap:8px;justify-content:center;margin-top:16px;color:var(--muted)}
+input[type=number],input[type=text]{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 10px;width:92px}
+input[type=text]{width:auto;flex:1;min-width:0}
+button{font:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible{outline:3px solid var(--water);outline-offset:2px}
+.row{display:grid;grid-template-columns:1fr;gap:8px;padding:12px 0;border-top:1px solid var(--line)}
+.row:first-of-type{border-top:0;padding-top:0}
+.row h3{margin:0;font-size:1rem;font-weight:600}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.opt{border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:10px;padding:10px;text-align:left;line-height:1.3;transition:transform .08s,border-color .15s}
+.opt:active{transform:scale(.97)}
+.opt.wise{border-color:var(--good)}
+.opt.wise:hover{background:color-mix(in srgb,var(--good) 12%,transparent)}
+.opt.usual:hover{background:color-mix(in srgb,var(--brass) 12%,transparent)}
+.opt b{display:block}
+.opt span{font-size:.85rem;color:var(--muted)}
+.opt.wise span{color:var(--good);font-weight:600}
+.other{display:flex;gap:8px;padding-top:12px;border-top:1px solid var(--line);flex-wrap:wrap}
+.btn{background:var(--deep);color:#fff;border:0;border-radius:8px;padding:8px 14px;font-weight:600}
+.ghost{background:none;border:1px solid var(--line);color:var(--ink);border-radius:8px;padding:6px 12px}
+ul.log{list-style:none;margin:0;padding:0}
+ul.log li{display:flex;align-items:center;gap:10px;padding:8px 0;border-top:1px solid var(--line)}
+ul.log li:first-child{border-top:0}
+ul.log .n{flex:1}
+ul.log .l{font-weight:600}
+ul.log .sv{color:var(--good);font-size:.85rem}
+.x{background:none;border:0;color:var(--muted);font-size:1.3rem;line-height:1;padding:4px 8px;border-radius:6px}
+.empty{color:var(--muted);margin:0}
+.chart{width:100%;height:auto;display:block}
+.chart text{fill:var(--muted);font:12px "Source Sans 3",sans-serif;text-anchor:middle}
+.chart .gl{stroke:var(--brass);stroke-dasharray:5 4;stroke-width:1.5}
+.chart .gt{text-anchor:end;fill:var(--brass)}
+.tip{display:flex;gap:12px;align-items:flex-start;justify-content:space-between}
+.tip p{margin:0;max-width:60ch}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.hero{position:relative;overflow:hidden;border-radius:20px;padding:30px 24px 64px;margin-bottom:20px;color:#fff;background:linear-gradient(135deg,#0A4558,#126F85 55%,#1E92A8)}
+.hero>div{position:relative;z-index:1}.hero h1{color:#fff}.hero p{color:rgba(255,255,255,.92)}
+.hw{position:absolute;left:0;bottom:-1px;width:200%;height:46px;animation:drift 12s linear infinite}
+.hw.b{bottom:5px;opacity:.35;animation-duration:18s;animation-direction:reverse}
+.hw path{fill:var(--bg)}.hw.b path{fill:#fff}
+@keyframes drift{to{transform:translateX(-50%)}}
+.bub{position:absolute;bottom:-14px;width:var(--s);height:var(--s);border-radius:50%;background:rgba(255,255,255,.28);animation:float var(--d) linear infinite}
+@keyframes float{from{opacity:.9}to{transform:translateY(-190px);opacity:0}}
+.card{box-shadow:0 1px 2px rgba(10,43,51,.06),0 10px 26px -14px rgba(10,43,51,.28)}
+.tankcard{background:linear-gradient(180deg,var(--surface),color-mix(in srgb,var(--water) 16%,var(--surface)))}
+.row h3{display:flex;align-items:center}
+.ic{display:inline-grid;place-items:center;width:32px;height:32px;border-radius:50%;background:color-mix(in srgb,var(--water) 18%,transparent);margin-right:10px;font-size:1.05rem}
+.opt{position:relative}.opt:hover{transform:translateY(-2px)}
+.pop{position:absolute;left:50%;top:0;white-space:nowrap;pointer-events:none;font-weight:700;color:var(--good);background:var(--surface);border:1px solid var(--good);border-radius:999px;padding:2px 10px;animation:pop 1s ease-out forwards}
+.pop.warn{color:var(--brass);border-color:var(--brass)}
+@keyframes pop{0%{opacity:0;transform:translate(-50%,0)}15%{opacity:1}100%{opacity:0;transform:translate(-50%,-52px)}}
+ul.log li.new{animation:slide .45s ease-out}@keyframes slide{from{opacity:0;transform:translateX(-16px)}}
+@keyframes grow{from{transform:scaleY(0)}}
+.btn{transition:transform .1s,filter .15s}.btn:hover{filter:brightness(1.12)}.btn:active{transform:scale(.96)}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="hero">
+<i class="bub" style="left:8%;--s:10px;--d:7s"></i><i class="bub" style="left:28%;--s:16px;--d:9s"></i><i class="bub" style="left:52%;--s:8px;--d:6s"></i><i class="bub" style="left:74%;--s:14px;--d:8s"></i><i class="bub" style="left:90%;--s:9px;--d:10s"></i>
+<div><h1>Tank Watch</h1>
+<p>Set a daily water budget, log what you use, and watch the tank. Pick the water-wise option and see how many litres you keep.</p></div>
+<svg class="hw b" viewBox="0 0 2400 60" preserveAspectRatio="none" aria-hidden="true"><path d="M0 34 q75 25 150 0 t150 0 t150 0 t150 0 t150 0 t150 0 t150 0 t150 0 t150 0 t150 0 t150 0 t150 0 t150 0 t150 0 t150 0 t150 0 V60 H0Z"/></svg>
+<svg class="hw" viewBox="0 0 2400 60" preserveAspectRatio="none" aria-hidden="true"><path d="M0 30 q75 -25 150 0 t150 0 t150 0 t150 0 t150 0 t150 0 t150 0 t150 0 t150 0 t150 0 t150 0 t150 0 t150 0 t150 0 t150 0 t150 0 V60 H0Z"/></svg>
+</header>
+
+<div class="grid">
+<section class="card tankcard" aria-labelledby="t-h">
+<h2 id="t-h">Today’s tank</h2>
+<svg class="tank" viewBox="0 0 160 250" role="img" id="tank" aria-label="Water tank">
+<defs><clipPath id="clip"><rect x="22" y="34" width="116" height="204" rx="14"/></clipPath></defs>
+<rect class="pipe" x="68" y="8" width="24" height="26" rx="3"/>
+<g clip-path="url(#clip)">
+<g class="water" id="water" style="transform:translateY(215px)">
+<path class="wv2" d="M-100 38 q29 8 58 0 t58 0 t58 0 t58 0 t58 0 t58 0 t58 0 t58 0 V250 H-100Z"/>
+<path class="wv1" d="M-100 38 q29 -9 58 0 t58 0 t58 0 t58 0 t58 0 t58 0 t58 0 t58 0 V250 H-100Z"/>
+<circle class="bb" cx="46" cy="234" r="3" style="--d:5s;--t:0s"/><circle class="bb" cx="78" cy="236" r="4" style="--d:7s;--t:1.5s"/><circle class="bb" cx="106" cy="234" r="2.5" style="--d:6s;--t:3s"/><circle class="bb" cx="124" cy="236" r="3.5" style="--d:8s;--t:.8s"/>
+</g>
+</g>
+<g class="ticks"><line x1="22" x2="40" y1="85" y2="85"/><line x1="22" x2="40" y1="136" y2="136"/><line x1="22" x2="40" y1="187" y2="187"/></g>
+<rect class="shell" x="22" y="34" width="116" height="204" rx="14"/>
+<path class="drop" id="drop" d="M80 38 c-5 7 -6 11 -6 13 a6 6 0 0 0 12 0 c0 -2 -1 -6 -6 -13z"/>
+</svg>
+<div class="big"><span id="left">0</span> <small>L left</small></div>
+<p class="state" id="state" aria-live="polite"></p>
+<div class="stats">
+<div class="stat"><b id="used">0 L</b><span>used today</span></div>
+<div class="stat s"><b id="saved">0 L</b><span>saved today</span></div>
+<div class="stat s"><b id="wsaved">0 L</b><span>saved this week</span></div>
+<div class="stat"><b id="streak">0</b><span>days within budget</span></div>
+</div>
+<div class="goal"><label for="goal">Daily budget</label><input type="number" id="goal" min="20" max="2000" step="5"> <span>L</span></div>
+</section>
+
+<div>
+<section class="card" aria-labelledby="l-h">
+<h2 id="l-h">Log water use</h2>
+<div id="acts"></div>
+<form class="other" id="other" onsubmit="return false">
+<input type="text" id="olabel" placeholder="Something else" aria-label="Activity name" maxlength="40">
+<input type="number" id="oL" min="1" max="2000" placeholder="Litres" aria-label="Litres used">
+<button class="btn" id="oadd" type="button">Add entry</button>
+</form>
+</section>
+
+<section class="card" aria-labelledby="e-h">
+<h2 id="e-h">Logged today</h2>
+<ul class="log" id="log"></ul>
+</section>
+
+<section class="card" aria-labelledby="c-h">
+<h2 id="c-h">Last 7 days</h2>
+<svg class="chart" id="chart" viewBox="0 0 340 160" role="img" aria-label="Daily water use for the last 7 days"></svg>
+</section>
+
+<section class="card tip" aria-labelledby="p-h">
+<div><h2 id="p-h">Tip</h2><p id="tip"></p></div>
+<button class="ghost" id="next" type="button">Next tip</button>
+</section>
+</div>
+</div>
+</div>
+
+<script>
+(function(){
+var KEY='tankwatch-v1',mem=null;
+var ACTS=[
+{n:'Bathing',w:['Bucket bath',20],u:['5-minute shower',50]},
+{n:'Brushing teeth',w:['Tap off while brushing',1],u:['Tap running',6]},
+{n:'Washing dishes',w:['Two-basin wash',15],u:['Running tap',40]},
+{n:'Watering plants',w:['Watering can',10],u:['Hose, 10 minutes',100]},
+{n:'Washing a vehicle',w:['Bucket and cloth',30],u:['Hose down',150]},
+{n:'Flushing',w:['Short flush',3],u:['Full flush',9]},
+{n:'Laundry',w:['Full machine load',50],u:['Two half loads',90]}
+];
+var TIPS=[
+'Fix a dripping tap today. One drop a second wastes over 10 litres a day.',
+'Keep a bucket in the shower to catch the cold water before it warms up. Use it for plants or mopping.',
+'Water the garden early morning or after sunset so less evaporates.',
+'Reuse the water from washing vegetables and rice for houseplants.',
+'Run washing machines only with a full load.',
+'Put a bottle filled with sand or water in the cistern to cut each flush.',
+'Collect rainwater from the roof in a barrel for gardens and cleaning.',
+'Check for silent toilet leaks: add food colouring to the cistern and wait 15 minutes without flushing.'
+];
+function load(){try{var r=localStorage.getItem(KEY);if(r)return JSON.parse(r)}catch(e){}return mem||{goal:135,days:{}}}
+var S=load();
+function save(){mem=S;try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+function key(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+function daysAgo(n){var d=new Date();d.setDate(d.getDate()-n);return d}
+function entries(k){return S.days[k]||[]}
+function sum(a,f){return a.reduce(function(t,e){return t+f(e)},0)}
+var $=function(i){return document.getElementById(i)};
+var tipI=new Date().getDate()%TIPS.length;
+
+function mk(tag,cls,txt){var e=document.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e}
+
+function buildActs(){
+var box=$('acts'),ICONS=['🛁','🪥','🍽️','🌱','🚗','🚽','🧺'];
+ACTS.forEach(function(a,ix){
+var row=mk('div','row'),h=mk('h3');h.appendChild(mk('span','ic',ICONS[ix]));h.appendChild(document.createTextNode(a.n));row.appendChild(h);
+var o=mk('div','opts');
+var w=mk('button','opt wise');w.type='button';
+w.appendChild(mk('b',null,a.w[0]+', '+a.w[1]+' L'));
+w.appendChild(mk('span',null,'Saves '+(a.u[1]-a.w[1])+' L'));
+w.onclick=function(){add(a.n+': '+a.w[0],a.w[1],a.u[1]);pop(w,'Saved '+(a.u[1]-a.w[1])+' L','')};
+var u=mk('button','opt usual');u.type='button';
+u.appendChild(mk('b',null,a.u[0]+', '+a.u[1]+' L'));
+u.appendChild(mk('span',null,'Usual way'));
+u.onclick=function(){add(a.n+': '+a.u[0],a.u[1],a.u[1]);pop(u,'+'+a.u[1]+' L','warn')};
+o.appendChild(w);o.appendChild(u);row.appendChild(o);box.appendChild(row);
+});
+}
+
+var lastId=null,first=true;
+var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches;
+function pop(b,t,c){var s=mk('span','pop '+c,t);b.appendChild(s);setTimeout(function(){s.remove()},1000)}
+function countTo(el,to){var from=+el.dataset.v||0;el.dataset.v=to;if(reduce){el.textContent=to;return}var t0=performance.now();(function f(t){var p=Math.min(1,(t-t0)/800);el.textContent=Math.round(from+(to-from)*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(f)})(t0)}
+function splash(){var t=$('tank'),d=$('drop');t.classList.remove('bump');d.classList.remove('go');void t.getBoundingClientRect();t.classList.add('bump');d.classList.add('go')}
+function add(label,l,base){
+var k=key(new Date()),id=Date.now()+Math.random();lastId=id;
+(S.days[k]=S.days[k]||[]).push({id:id,label:label,l:l,base:base});
+save();render();splash();
+}
+
+function render(){
+var k=key(new Date()),E=entries(k),goal=S.goal;
+var used=sum(E,function(e){return e.l}),saved=sum(E,function(e){return Math.max(0,e.base-e.l)});
+var left=Math.max(0,goal-used),pct=Math.max(0,Math.min(1,(goal-used)/goal));
+countTo($('left'),Math.round(left));
+$('used').textContent=Math.round(used)+' L';
+$('saved').textContent=Math.round(saved)+' L';
+var wt='translateY('+((1-pct)*200)+'px)',wg=$('water');
+wg.style.setProperty('--wc',used>goal?'var(--over)':pct<.25?'var(--brass)':'var(--water)');
+setTimeout(function(){wg.style.transform=wt},first?250:0);
+var st=$('state');
+if(used>goal){st.textContent='Over budget by '+Math.round(used-goal)+' L. Try a water-wise option for the rest of today.';st.className='state over'}
+else if(used===0){st.textContent='Full tank. Every litre you skip stays in it.';st.className='state'}
+else{st.textContent=Math.round(pct*100)+'% of today’s budget remains.';st.className='state'}
+$('tank').setAttribute('aria-label','Tank '+Math.round(pct*100)+' percent full, '+Math.round(left)+' litres left');
+var ws=0;for(var i=0;i<7;i++)ws+=sum(entries(key(daysAgo(i))),function(e){return Math.max(0,e.base-e.l)});
+$('wsaved').textContent=Math.round(ws)+' L';
+var sk=0;for(var j=0;j<60;j++){var d=entries(key(daysAgo(j)));if(!d.length){if(j===0)continue;break}if(sum(d,function(e){return e.l})<=goal)sk++;else break}
+$('streak').textContent=sk;
+var ul=$('log');ul.textContent='';
+if(!E.length){var li=mk('li');li.appendChild(mk('p','empty','Nothing logged yet. Tap an activity above to start today’s count.'));ul.appendChild(li)}
+E.slice().reverse().forEach(function(e){
+var li=mk('li',e.id===lastId?'new':''),n=mk('div','n',e.label);
+if(e.base>e.l){n.appendChild(document.createElement('br'));n.appendChild(mk('span','sv','Saved '+Math.round(e.base-e.l)+' L'))}
+li.appendChild(n);li.appendChild(mk('span','l',Math.round(e.l)+' L'));
+var x=mk('button','x','×');x.type='button';x.setAttribute('aria-label','Remove '+e.label);
+x.onclick=function(){S.days[k]=entries(k).filter(function(y){return y.id!==e.id});save();render()};
+li.appendChild(x);ul.appendChild(li);
+});
+chart();first=false;
+}
+
+function chart(){
+var svg=$('chart'),NS='http://www.w3.org/2000/svg',data=[],max=S.goal*1.15;
+for(var i=6;i>=0;i--){var d=daysAgo(i),u=sum(entries(key(d)),function(e){return e.l});data.push({d:d,u:u});if(u>max)max=u}
+svg.textContent='';
+function el(t,a,txt){var e=document.createElementNS(NS,t);for(var p in a)e.setAttribute(p,a[p]);if(txt!=null)e.textContent=txt;svg.appendChild(e);return e}
+var H=120,top=10,bw=28,gap=(300-7*bw)/6;
+data.forEach(function(r,i){
+var x=40+i*(bw+gap),h=r.u/max*H;
+if(r.u>0){var b=el('rect',{x:x,y:top+H-h,width:bw,height:h,rx:4});b.style.fill=r.u>S.goal?'var(--over)':'var(--water)';if(first)b.style.cssText+=';transform-box:fill-box;transform-origin:bottom;animation:grow .7s '+(i*.07+.3)+'s both'}
+else el('rect',{x:x,y:top+H-2,width:bw,height:2,rx:1}).style.fill='var(--line)';
+if(r.u>0)el('text',{x:x+bw/2,y:top+H-h-4},Math.round(r.u));
+el('text',{x:x+bw/2,y:top+H+18},r.d.toLocaleDateString('en',{weekday:'short'}));
+});
+var gy=top+H-S.goal/max*H;
+el('line',{x1:34,x2:340,y1:gy,y2:gy,class:'gl'});
+el('text',{x:34,y:gy-4,class:'gt'},S.goal+' L');
+}
+
+function setTip(){$('tip').textContent=TIPS[tipI]}
+$('next').onclick=function(){tipI=(tipI+1)%TIPS.length;setTip()};
+$('goal').value=S.goal;
+$('goal').onchange=function(){var v=parseInt(this.value,10);if(v>=20&&v<=2000){S.goal=v;save();render()}else this.value=S.goal};
+$('oadd').onclick=function(){
+var l=parseFloat($('oL').value),n=$('olabel').value.trim()||'Other use';
+if(!(l>0)){$('oL').focus();return}
+add(n,l,l);$('oL').value='';$('olabel').value='';
+};
+buildActs();setTip();render();
+})();
+</script>
+</body>
+</html>
